@@ -3,7 +3,7 @@ const auth = {
   discoveryDocs: [
     'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest',
   ],
-  clientId: 'YOUR-CLIENT-ID',
+  clientId: 'YOUT-CLIENT-ID',
   scope: 'https://www.googleapis.com/auth/youtube.force-ssl',
 };
 
@@ -20,21 +20,6 @@ function handleClientLoad() {
     });
   });
 }
-
-// if user want type client id
-const clientIdForm = document.getElementById('client-id-form');
-clientIdForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const clientId = e.target[0].value;
-  auth.clientId = clientId;
-  console.log(
-    'save your client id, but it is not save on your cookie :',
-    clientId
-  );
-  const clientIdBlock = document.getElementById('client-id-block');
-  clientIdBlock.style.display = 'block';
-  clientIdBlock.innerHTML = `<p class="flow-text">${clientId}</p>`;
-});
 
 /** Step of get data
  * 1. get video data and show brief data
@@ -53,6 +38,7 @@ searchForm.addEventListener('submit', (e) => {
   const url = e.target[0].value;
   // url validation check
   if (validateVideoLink(url)) {
+    const videoId = e.target[0].value.split('?v=')[1].split('&')[0];
     // not signIn
     if (!signFlag) {
       gapi.auth2
@@ -60,17 +46,12 @@ searchForm.addEventListener('submit', (e) => {
         .signIn()
         .then((rep) => {
           // get id from link
-          const videoId = e.target[0].value.split('?v=')[1];
-          // console.log(videoId);
           updateVideoInform(videoId);
         })
         .catch((err) => console.log(err));
     }
     // already signin
     else {
-      // get id from link
-      const videoId = e.target[0].value.split('?v=')[1];
-      // console.log(videoId);
       updateVideoInform(videoId);
     }
   }
@@ -100,6 +81,7 @@ function updateVideoInform(videoId) {
       showAfterVideoInform(videoId);
     })
     .catch((err) => {
+      console.log(err);
       const warningText = 'we can not find video';
       updateWarningText(warningText);
     });
@@ -203,13 +185,12 @@ searchTerm.addEventListener('submit', (e) => {
 });
 
 function showComment(term) {
+  const comment = document.getElementById('comment-thread');
+  let output = ``;
   // if there is no comment
   if (commentThreads.length === 0) {
-    const comment = document.getElementById('comment-thread');
     const errMsg = 'There is no comment on this video.';
-    const output = `
-        <div class="row">
-            <div class="col s12">
+    output = `
               <div class="card blue lighten-3">
                 <div class="card-content white-text">
                   <p class="indigo-text text-darken-4 regular-text center-align">
@@ -217,10 +198,7 @@ function showComment(term) {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
     `;
-    comment.innerHTML = output;
   } else if (term) {
     for (let i = 0; i < commentThreads.length; i++) {
       const items = commentThreads[i];
@@ -229,8 +207,6 @@ function showComment(term) {
         // 여기
         if (snippet.textOriginal.includes(term)) {
           output += `
-          <div class="row">
-              <div class="col s4">
                 <div class="card blue lighten-3">
                   <div class="card-content white-text">
                     <span class="card-title">${snippet.authorDisplayName}</span>
@@ -239,8 +215,6 @@ function showComment(term) {
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
         `;
         }
       }
@@ -252,22 +226,19 @@ function showComment(term) {
       for (let j = 0; j < items.length; j++) {
         const snippet = items[j].snippet.topLevelComment.snippet;
         output += `
-          <div class="row">
-              <div class="col s4">
                 <div class="card blue lighten-3">
                   <div class="card-content white-text">
                     <span class="card-title">${snippet.authorDisplayName}</span>
                     <p class="indigo-text text-darken-4 regular-text">
-                      ${snippet.textOriginal}
+                      ${snippet.textDisplay}
                     </p>
                   </div>
                 </div>
-              </div>
-            </div>
         `;
       }
     }
   }
+  comment.innerHTML = output;
 }
 
 let commentThreads = [];
@@ -282,7 +253,9 @@ function getCommentThreads(option) {
           commentThreads.push(rep.result.items);
 
           option.pageToken = rep.result.nextPageToken;
-          getCommentThreads(option);
+          getCommentThreads(option).then((rep) => {
+            endGetCommentThreads(rep);
+          });
         })
         .catch((err) => console.log(err));
     }
@@ -311,4 +284,6 @@ function endGetCommentThreads(rep) {
   console.log(rep);
 
   showComment();
+
+  console.log('end');
 }

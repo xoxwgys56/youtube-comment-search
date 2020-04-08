@@ -22,8 +22,12 @@
     * > https://console.cloud.google.com/apis/credentials/
 
 ## ToDo
+- url 뒤의 & 뒤 수정.
 - 현재 유튜브 트래픽 초과해서 테스트를 진행하지 못하는 중.
 - 잘되는지 테스트만 하면 끝.
+- 대댓글 추가
+- 검색 키워드 하이라이트
+- 로딩
 
 ### Author
 
