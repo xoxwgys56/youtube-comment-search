@@ -22,12 +22,17 @@
     * > https://console.cloud.google.com/apis/credentials/
 
 ## ToDo
-- url 뒤의 & 뒤 수정.
-- 현재 유튜브 트래픽 초과해서 테스트를 진행하지 못하는 중.
-- 잘되는지 테스트만 하면 끝.
-- 대댓글 추가
 - 검색 키워드 하이라이트
 - 로딩
+- design
+- 코멘트를 클릭해서 대댓글을 접게하기
+
+## Something Learn from this
+- Can not handle function, handleClientLoad()
+  - Trying to customize. change called time when user signed-in
+  - this function return nothing. so can not know user signin properly
+  - also can not use promise.
+- Maybe.. I should ues React not just vanillaJS
 
 ### Author
 

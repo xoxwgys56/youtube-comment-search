@@ -3,7 +3,7 @@ const auth = {
   discoveryDocs: [
     'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest',
   ],
-  clientId: 'YOUT-CLIENT-ID',
+  clientId: 'CLIENT-ID',
   scope: 'https://www.googleapis.com/auth/youtube.force-ssl',
 };
 
@@ -181,12 +181,13 @@ const searchTerm = document.getElementById('search-term');
 searchTerm.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  showComment(e.target[0].value);
+  showCommentList(e.target[0].value);
 });
 
-function showComment(term) {
+function showCommentList(term) {
   const comment = document.getElementById('comment-thread');
   let output = ``;
+
   // if there is no comment
   if (commentThreads.length === 0) {
     const errMsg = 'There is no comment on this video.';
@@ -200,47 +201,104 @@ function showComment(term) {
               </div>
     `;
   } else if (term) {
-    for (let i = 0; i < commentThreads.length; i++) {
-      const items = commentThreads[i];
-      for (let j = 0; j < items.length; j++) {
-        const snippet = items[j].snippet.topLevelComment.snippet;
-        // 여기
-        if (snippet.textOriginal.includes(term)) {
-          output += `
-                <div class="card blue lighten-3">
-                  <div class="card-content white-text">
-                    <span class="card-title">${snippet.authorDisplayName}</span>
-                    <p class="indigo-text text-darken-4 regular-text">
-                      ${snippet.textOriginal}
-                    </p>
-                  </div>
-                </div>
-        `;
+    for (let i = 0; i < comments.length; i++) {
+      const comment = comments[i];
+      const replies = comment.replies;
+
+      // if comment has replies, search that
+      let searchFlag = false;
+      if (replies) {
+        for (let j = 0; j < replies.length; j++) {
+          if (replies[j].text.includes(term)) {
+            searchFlag = true;
+            break;
+          }
         }
-      }
+      } else if (comment.text.includes(term)) searchFlag = true;
+
+      if (searchFlag) output += commentCard(comment);
     }
-    // no term
-  } else {
-    for (let i = 0; i < commentThreads.length; i++) {
-      const items = commentThreads[i];
-      for (let j = 0; j < items.length; j++) {
-        const snippet = items[j].snippet.topLevelComment.snippet;
-        output += `
-                <div class="card blue lighten-3">
-                  <div class="card-content white-text">
-                    <span class="card-title">${snippet.authorDisplayName}</span>
-                    <p class="indigo-text text-darken-4 regular-text">
-                      ${snippet.textDisplay}
-                    </p>
-                  </div>
-                </div>
-        `;
-      }
+  }
+  // no search term
+  else {
+    for (let i = 0; i < comments.length; i++) {
+      output += commentCard(comments[i]);
     }
   }
   comment.innerHTML = output;
 }
 
+function showReplyList(replies) {
+  const result = [];
+  for (let i = 0; i < replies.length; i++) {
+    result.push(replyCard(replies[i]));
+  }
+  return result;
+}
+
+function commentCard(comment) {
+  let output = `
+    <div class="card blue lighten-3">
+      <div class="card-content white-text">
+        <span class="card-title"><a href=${comment.channel}>${comment.author}</a></span>
+          <div class="row">
+            <div class="col s4 m4 l4">
+              <i class="material-icons">comment</i>
+            </div>
+            <div class="col s4 m4 l4">${comment.date}</div>
+            <div class="col s4 m4 l4">
+              <i class="material-icons preifx">thumb_up</i>${comment.like}
+            </div>
+          </div>
+          <div class="row">
+            <p class="indigo-text text-darken-4 regular-text">
+              ${comment.text}
+            </p>
+          </div>
+        </div>
+    </div>
+  `;
+  // if has replies append it.
+  if (comment.replies) {
+    const replies = showReplyList(comment.replies);
+    for (let i = 0; i < replies.length; i++) {
+      output += replies[i];
+    }
+  }
+  return output;
+}
+
+function getParent(id) {
+  for (let i = 0; i < comments.length; i++) {
+    //
+  }
+}
+
+function replyCard(reply) {
+  return `
+  <div class="card orange lighten-1">
+  <div class="card-content white-text">
+    <span class="card-title"><a href=${reply.channel}>${reply.author}</a></span>
+      <div class="row">
+        <div class="col s3 m3 l3">
+          <i class="material-icons">chat</i>
+        </div>
+        <div class="col s4 m4 l4">${reply.date}</div>
+        <div class="col s3 m3 l3">
+          <i class="material-icons preifx">thumb_up</i>${reply.like}
+        </div>
+      </div>
+      <div class="row">
+        <p class="indigo-text text-darken-4 regular-text col s10 m10 l10">
+          ${reply.text}
+        </p>
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+// data not arranged
 let commentThreads = [];
 // get comment threads
 function getCommentThreads(option) {
@@ -283,7 +341,52 @@ function getCommentThreads(option) {
 function endGetCommentThreads(rep) {
   console.log(rep);
 
-  showComment();
+  arrangeAllComments();
+  showCommentList();
 
   console.log('end');
+}
+
+let comments = [];
+function arrangeAllComments() {
+  const tempThreads = [];
+  for (let i = 0; i < commentThreads.length; i++) {
+    const commentThread = commentThreads[i];
+    for (let j = 0; j < commentThread.length; j++) {
+      tempThreads.push(commentThread[j]);
+    }
+  }
+
+  for (let i = 0; i < tempThreads.length; i++) {
+    const snippet = tempThreads[i].snippet.topLevelComment.snippet;
+
+    const tempReplies = tempThreads[i].replies;
+    const replies = [];
+    if (tempReplies) {
+      // add comment's replies
+      for (let j = 0; j < tempReplies.comments.length; j++) {
+        const snippet = tempReplies.comments[j].snippet;
+        const reply = {
+          id: tempReplies.comments[j].id,
+          author: snippet.authorDisplayName,
+          text: snippet.textDisplay,
+          parentId: snippet.parentId,
+          date: snippet.publishedAt,
+          channel: snippet.authorChannelUrl,
+          like: snippet.likeCount,
+        };
+        replies.push(reply);
+      }
+    }
+    const comment = {
+      id: tempThreads[i].snippet.topLevelComment.id,
+      author: snippet.authorDisplayName,
+      text: snippet.textDisplay,
+      replies: replies,
+      date: snippet.publishedAt,
+      channel: snippet.authorChannelUrl,
+      like: snippet.likeCount,
+    };
+    comments.push(comment);
+  }
 }

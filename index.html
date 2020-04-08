@@ -145,7 +145,31 @@
           </div>
         </div>
         <!-- 코멘트 -->
-        <div class="section" id="comment-thread"></div>
+        <div class="section" id="comment-thread">
+          <div class="card orange lighten-1">
+            <div class="card-content white-text">
+              <span class="card-title"
+                ><a href="${reply.channel}">${reply.author}</a></span
+              >
+              <div class="row">
+                <div class="col s3 m3 l3">
+                  <i class="material-icons">chat</i>
+                </div>
+                <div class="col s4 m4 l4">${reply.date}</div>
+                <div class="col s3 m3 l3">
+                  <i class="material-icons preifx">thumb_up</i>${reply.like}
+                </div>
+              </div>
+              <div class="row">
+                <p
+                  class="indigo-text text-darken-4 regular-text col s10 m10 l10"
+                >
+                  ${reply.text}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
