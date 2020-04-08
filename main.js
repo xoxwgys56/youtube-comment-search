@@ -21,6 +21,21 @@ function handleClientLoad() {
   });
 }
 
+// if user want type client id
+const clientIdForm = document.getElementById('client-id-form');
+clientIdForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const clientId = e.target[0].value;
+  auth.clientId = clientId;
+  console.log(
+    'save your client id, but it is not save on your cookie :',
+    clientId
+  );
+  const clientIdBlock = document.getElementById('client-id-block');
+  clientIdBlock.style.display = 'block';
+  clientIdBlock.innerHTML = `<p class="flow-text">${clientId}</p>`;
+});
+
 /** Step of get data
  * 1. get video data and show brief data
  * 2. then get comment -> at this time, need to signin google
@@ -143,18 +158,10 @@ function updateWarningText(text) {
     warningText.innerText = text;
     warningBlock.style.display = 'block';
   }
-  // setInterval(() => {
-  //   warningBlock.style.display = 'none';
-  // }, 5000);
 }
 
 // const signinBtn = document.getElementById('signin-btn');
 const signoutBtn = document.getElementById('signout-btn');
-// signinBtn.addEventListener('click', () => {
-//   gapi.auth2.getAuthInstance().signIn();
-
-//   // get comment
-// });
 signoutBtn.addEventListener('click', () => {
   gapi.auth2.getAuthInstance().signOut();
 });
@@ -174,7 +181,6 @@ const searchBlock = document.getElementById('search-block');
 // show login, search term after get video information
 function showAfterVideoInform(videoId) {
   searchBlock.style.display = 'block';
-  // show logout button
 
   // commentThreads option
   const option = {
@@ -193,6 +199,10 @@ const searchTerm = document.getElementById('search-term');
 searchTerm.addEventListener('submit', (e) => {
   e.preventDefault();
 
+  showComment(e.target[0].value);
+});
+
+function showComment(term) {
   // if there is no comment
   if (commentThreads.length === 0) {
     const comment = document.getElementById('comment-thread');
@@ -211,10 +221,7 @@ searchTerm.addEventListener('submit', (e) => {
           </div>
     `;
     comment.innerHTML = output;
-  } else {
-    const term = e.target[0].value;
-    console.log(term);
-
+  } else if (term) {
     for (let i = 0; i < commentThreads.length; i++) {
       const items = commentThreads[i];
       for (let j = 0; j < items.length; j++) {
@@ -238,8 +245,30 @@ searchTerm.addEventListener('submit', (e) => {
         }
       }
     }
+    // no term
+  } else {
+    for (let i = 0; i < commentThreads.length; i++) {
+      const items = commentThreads[i];
+      for (let j = 0; j < items.length; j++) {
+        const snippet = items[j].snippet.topLevelComment.snippet;
+        output += `
+          <div class="row">
+              <div class="col s4">
+                <div class="card blue lighten-3">
+                  <div class="card-content white-text">
+                    <span class="card-title">${snippet.authorDisplayName}</span>
+                    <p class="indigo-text text-darken-4 regular-text">
+                      ${snippet.textOriginal}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        `;
+      }
+    }
   }
-});
+}
 
 let commentThreads = [];
 // get comment threads
@@ -281,29 +310,5 @@ function getCommentThreads(option) {
 function endGetCommentThreads(rep) {
   console.log(rep);
 
-  const comment = document.getElementById('comment-thread');
-
-  let output = ``;
-  for (let i = 0; i < commentThreads.length; i++) {
-    const items = commentThreads[i];
-    for (let j = 0; j < items.length; j++) {
-      const snippet = items[j].snippet.topLevelComment.snippet;
-      output += `
-        <div class="row">
-            <div class="col s4">
-              <div class="card blue lighten-3">
-                <div class="card-content white-text">
-                  <span class="card-title">${snippet.authorDisplayName}</span>
-                  <p class="indigo-text text-darken-4 regular-text">
-                    ${snippet.textOriginal}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-      `;
-    }
-
-    comment.innerHTML = output;
-  }
+  showComment();
 }
