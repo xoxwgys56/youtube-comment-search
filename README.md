@@ -29,6 +29,7 @@
 - 로딩 안꺼지는 경우 확인.
 - design
 - 코멘트를 클릭해서 대댓글을 접게하기
+  - 접지 못하는 코멘트에도 접기 버튼 달리는 버그 수정
 
 ## Something Learn from this
 - Can not handle function, handleClientLoad()

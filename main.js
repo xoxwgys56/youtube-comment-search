@@ -251,8 +251,8 @@ function showReplyList(replies) {
 
 function commentCard(comment) {
   let output = `
-    <div class="card blue lighten-3">
-      <div class="card-content white-text">`;
+  <div class="card blue lighten-2">
+  <div class="card-content white-text">`;
 
   if (comment.replies) {
     output += `
@@ -265,19 +265,19 @@ function commentCard(comment) {
   }
 
   output += `<div class="row">
-            <div class="col s4 m4 l4">
-              <i class="material-icons">comment</i>
-            </div>
-            <div class="col s4 m4 l4">${comment.date}</div>
-            <div class="col s4 m4 l4">
-              <i class="material-icons preifx">thumb_up</i>${comment.like}
-            </div>
-          </div>
-          <div class="row">
-            <p class="indigo-text text-darken-4 regular-text">
-              ${comment.text}
-            </p>
-          </div>
+                <div class="col s4 m4 l4">
+                  <i class="material-icons">chat</i>
+                </div>
+                <div class="col s4 m4 l4 valign-wrapper">${comment.date}</div>
+                <div class="col s2 m2 l2 valign-wrapper">
+                  <i class="material-icons preifx">thumb_up</i>${comment.like}
+                </div>
+              </div>
+              <div class="row">
+                <p class="indigo-text text-darken-4 regular-text">
+                  ${comment.text}
+                </p>
+              </div>
         </div>
     </div>
   `;
@@ -299,25 +299,33 @@ function getParent(id) {
 
 function replyCard(reply) {
   return `
-  <div class="card orange lighten-1">
-  <div class="card-content white-text">
-    <span class="card-title"><a href=${reply.channel}>${reply.author}</a></span>
-      <div class="row">
-        <div class="col s3 m3 l3">
-          <i class="material-icons">chat</i>
-        </div>
-        <div class="col s4 m4 l4">${reply.date}</div>
-        <div class="col s3 m3 l3">
-          <i class="material-icons preifx">thumb_up</i>${reply.like}
-        </div>
-      </div>
-      <div class="row">
-        <p class="indigo-text text-darken-4 regular-text col s10 m10 l10">
-          ${reply.text}
-        </p>
-      </div>
-    </div>
-  </div>
+    <div class="row">
+            <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
+              <div class="card teal lighten-3">
+                <div class="card-content white-text">
+                  <span class="card-title"
+                    ><a href="${reply.channel}">${reply.author}</a></span
+                  >
+                  <div class="row">
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons">comment</i>
+                    </div>
+                    <div class="col s4 m4 l4 valign-wrapper">${reply.date}</div>
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons preifx">thumb_up</i>${reply.like}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p
+                      class="indigo-text text-darken-4 regular-text col s10 m10 l10"
+                    >
+                      ${reply.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
   `;
 }
 
