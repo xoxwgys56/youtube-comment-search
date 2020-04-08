@@ -62,8 +62,19 @@ searchForm.addEventListener('submit', (e) => {
   }
 });
 
+// comment loading
+function onCommentLoading() {
+  const commentLoading = document.getElementById('comment-loading');
+  commentLoading.style.display = 'block';
+}
+function offCommentLoading() {
+  const commentLoading = document.getElementById('comment-loading');
+  commentLoading.style.display = 'none';
+}
+
 // update video inform
 function updateVideoInform(videoId) {
+  onCommentLoading();
   // get video data
   gapi.client.youtube.videos
     .list({
@@ -84,6 +95,7 @@ function updateVideoInform(videoId) {
       console.log(err);
       const warningText = 'we can not find video';
       updateWarningText(warningText);
+      offCommentLoading();
     });
 }
 
@@ -163,6 +175,7 @@ const searchBlock = document.getElementById('search-block');
 // show login, search term after get video information
 function showAfterVideoInform(videoId) {
   searchBlock.style.display = 'block';
+  document.getElementById('search-input').focus();
 
   // commentThreads option
   const option = {
@@ -239,9 +252,19 @@ function showReplyList(replies) {
 function commentCard(comment) {
   let output = `
     <div class="card blue lighten-3">
-      <div class="card-content white-text">
-        <span class="card-title"><a href=${comment.channel}>${comment.author}</a></span>
-          <div class="row">
+      <div class="card-content white-text">`;
+
+  if (comment.replies) {
+    output += `
+      <span class="card-title">
+        <a href=${comment.channel}>${comment.author}</a>
+        <i class="material-icons medium right">expand_less</i>
+      </span>`;
+  } else {
+    outpue += `<span class="card-title"><a href=${comment.channel}>${comment.author}</a></span>`;
+  }
+
+  output += `<div class="row">
             <div class="col s4 m4 l4">
               <i class="material-icons">comment</i>
             </div>
@@ -315,7 +338,10 @@ function getCommentThreads(option) {
             endGetCommentThreads(rep);
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          offCommentLoading();
+        });
     }
     // end get comment
     else if (option.pageToken === undefined) resolve('end get comment');
@@ -332,7 +358,10 @@ function getCommentThreads(option) {
             endGetCommentThreads(rep);
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          offCommentLoading;
+        });
     }
   });
 }
@@ -345,6 +374,7 @@ function endGetCommentThreads(rep) {
   showCommentList();
 
   console.log('end');
+  offCommentLoading();
 }
 
 let comments = [];

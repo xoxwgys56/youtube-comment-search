@@ -40,6 +40,15 @@
     </h1>
 
     <div class="container">
+      <div class="switch">
+        <label>
+          English
+          <input type="checkbox" />
+          <span class="lever"></span>
+          Korean
+        </label>
+      </div>
+
       <div class="row">
         <div class="card orange">
           <div class="card-content white-text">
@@ -129,14 +138,14 @@
         </div>
 
         <div class="section invisible" id="search-block">
-          <!-- <div class="section" id="search-block"> -->
+        <!-- <div class="section" id="search-block"> -->
           <div class="row">
             <form id="search-term">
               <div class="input-field col s10 m10 l10">
                 <i class="material-icons prefix red-text text-lighten-1"
                   >text_format</i
                 >
-                <input type="text" placeholder="search term" />
+                <input id="search-input" type="text" placeholder="search term" />
               </div>
               <div class="input-field col s2 m2 l2">
                 <input type="submit" value="Search" class="btn red lighten-1" />
@@ -146,29 +155,130 @@
         </div>
         <!-- 코멘트 -->
         <div class="section" id="comment-thread">
-          <div class="card orange lighten-1">
-            <div class="card-content white-text">
-              <span class="card-title"
-                ><a href="${reply.channel}">${reply.author}</a></span
-              >
-              <div class="row">
-                <div class="col s3 m3 l3">
-                  <i class="material-icons">chat</i>
+          <!-- comment loading -->
+          <div class="row invisible" id='comment-loading'>
+            <div class="col s12 m12 l12 center-align">
+              <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-red-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
                 </div>
-                <div class="col s4 m4 l4">${reply.date}</div>
-                <div class="col s3 m3 l3">
-                  <i class="material-icons preifx">thumb_up</i>${reply.like}
-                </div>
-              </div>
-              <div class="row">
-                <p
-                  class="indigo-text text-darken-4 regular-text col s10 m10 l10"
-                >
-                  ${reply.text}
-                </p>
               </div>
             </div>
           </div>
+          
+          <div class="card blue lighten-2">
+            <div class="card-content white-text">
+              <span class="card-title activator grey-text text-darken-4">
+                <a href="${comment.channel}">${comment.author}</a>
+                <i class="material-icons medium right">expand_less</i>
+              </span>
+              
+              <div class="row">
+                <div class="col s4 m4 l4">
+                  <i class="material-icons">chat</i>
+                </div>
+                <div class="col s4 m4 l4 valign-wrapper">${comment.date}</div>
+                <div class="col s2 m2 l2 valign-wrapper">
+                  <i class="material-icons preifx">thumb_up</i>${comment.like}
+                </div>
+              </div>
+              <div class="row">
+                <p class="indigo-text text-darken-4 regular-text">
+                  ${comment.text}
+                </p>
+              </div>
+              
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
+              <div class="card teal lighten-3">
+                <div class="card-content white-text">
+                  <span class="card-title"
+                    ><a href="${reply.channel}">${reply.author}</a></span
+                  >
+                  <div class="row">
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons">comment</i>
+                    </div>
+                    <div class="col s4 m4 l4 valign-wrapper">${reply.date}</div>
+                    <div class="col s2 m2 l2 valign-wrapper">
+                      <i class="material-icons preifx">thumb_up</i>${reply.like}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p
+                      class="indigo-text text-darken-4 regular-text col s10 m10 l10"
+                    >
+                      ${reply.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="row">
+            <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
+              <div class="card teal lighten-3">
+                <div class="card-content white-text">
+                  <span class="card-title"
+                    ><a href="${reply.channel}">${reply.author}</a></span
+                  >
+                  <div class="row">
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons">comment</i>
+                    </div>
+                    <div class="col s4 m4 l4 valign-wrapper">${reply.date}</div>
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons preifx">thumb_up</i>${reply.like}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p
+                      class="indigo-text text-darken-4 regular-text col s10 m10 l10"
+                    >
+                      ${reply.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="row">
+            <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
+              <div class="card teal lighten-3">
+                <div class="card-content white-text">
+                  <span class="card-title"
+                    ><a href="${reply.channel}">${reply.author}</a></span
+                  >
+                  <div class="row">
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons">comment</i>
+                    </div>
+                    <div class="col s4 m4 l4 valign-wrapper">${reply.date}</div>
+                    <div class="col s3 m3 l3 valign-wrapper">
+                      <i class="material-icons preifx">thumb_up</i>${reply.like}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <p
+                      class="indigo-text text-darken-4 regular-text col s10 m10 l10"
+                    >
+                      ${reply.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- end of reply car -->
         </div>
       </div>
     </section>
@@ -181,5 +291,13 @@
       onload="this.onload=function(){};handleClientLoad()"
       onreadystatechange="if (this.readyState === 'complete') this.onload()"
     ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems, {
+          toolbarEnabled: true
+        });
+      });
+    </script>
   </body>
 </html>

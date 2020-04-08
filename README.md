@@ -8,7 +8,10 @@
 
 ## App Info
   ![app-info](https://github.com/xoxwgys56/youtube-comment-search/blob/master/img/App-Screen.png)
-  
+
+  # Search result
+  - when main comment or reply comment include term.
+  - > the result include all of comment.
 ### Inspired from Brad's repo
 ### Repo link : [https://www.youtube.com/watch?v=r-yxNNO1EI8]
   이 프로젝트는 oauth2 테스트를 위해 깃헙페이지를 이용합니다.
@@ -21,9 +24,9 @@
     * > this case you need to add your url to your oauth2
     * > https://console.cloud.google.com/apis/credentials/
 
-## ToDo
+## To-Do
 - 검색 키워드 하이라이트
-- 로딩
+- 로딩 안꺼지는 경우 확인.
 - design
 - 코멘트를 클릭해서 대댓글을 접게하기
 
@@ -36,7 +39,7 @@
 
 ### Author
 
-inspired by Brad Traversy
+Inspired by Brad Traversy
 [Traversy Media](http://www.traversymedia.com)
 
 Daewon Kim
