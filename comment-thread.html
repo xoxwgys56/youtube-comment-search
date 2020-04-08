@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <title>Youtube-Comment-Thread</title>
+    <style>
+      /* label underline focus color */
+      .input-field input[type='text']:focus {
+        border-bottom: 1px solid #000;
+        box-shadow: 0 1px 0 0 #000;
+      }
+
+      .regular-text {
+        font-weight: 400;
+      }
+      .bold-text {
+        font-weight: 800;
+      }
+      .invisible {
+        display: none;
+      }
+      .btn-text {
+        text-transform: uppercase;
+        font-size: 3vh;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="center-align red-text text-darken-2">Youtube Comment Thread</h1>
+
+    <div class="container">
+      <div class="row">
+        <div class="card orange">
+          <div class="card-content white-text">
+            <div
+              class="card-title center-align red-text text-darken-1 bold-text"
+            >
+              What is it?
+            </div>
+            <p>
+              This web app get youtube video's all of comment
+            </p>
+            <div class="card-title center-align red-text text-darken-1">
+              If you use this app, what you need
+            </div>
+            <p>
+              This app uses Oauth2. so you need google api client id, check here
+              "
+              <a
+                class="blue-text bold-text"
+                href="https://console.cloud.google.com/apis/credentials"
+                >google cloud apis</a
+              >"
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card red darken-2">
+          <div class="card-content white-text">
+            <div class="card-title">
+              Follow this step
+            </div>
+            <p>
+              1. Enter youtube video's link that bring the brief video's
+              information.
+            </p>
+            <p>
+              2. Then sign in google.
+            </p>
+            <p>
+              3. Enter the term which do you wanna search. if not just empty it.
+            </p>
+            <p>
+              4. Then press search button.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section>
+      <div class="container">
+        <!-- 검색 -->
+        <div class="row">
+          <form id="search-video">
+            <div class="input-field col s10 m10 l10">
+              <i class="material-icons prefix red-text text-darken-1"
+                >ondemand_video</i
+              >
+              <input type="text" placeholder="enter youtube video link" />
+            </div>
+            <div class="input-field col s2 m2 l2">
+              <input type="submit" value="Enter" class="btn red darken-1" />
+            </div>
+          </form>
+        </div>
+        <!-- warning -->
+        <div class="row" id="warning-block" style="display: none;">
+          <div class="card-panel deep-orange accent-3">
+            <p
+              class="center-align white-text flow-text"
+              style="font-size: 3vh; text-transform: uppercase;"
+              id="warning-text"
+            >
+              warning
+            </p>
+          </div>
+        </div>
+        <!-- 검색한 내용의 비디오 개요 -->
+        <div class="section" id="video-inform"></div>
+        <!-- sign out -->
+        <div class="section">
+          <div class="row">
+            <button class="col s12 red white-text btn-text" id="signout-btn">
+              sign out
+            </button>
+          </div>
+        </div>
+
+        <!-- <div class="section invisible" id="search-block"> -->
+        <div class="section" id="search-block">
+          <div class="row">
+            <form id="search-term">
+              <div class="input-field col s10 m10 l10">
+                <i class="material-icons prefix red-text text-lighten-1"
+                  >text_format</i
+                >
+                <input type="text" placeholder="search term" />
+              </div>
+              <div class="input-field col s2 m2 l2">
+                <input type="submit" value="Search" class="btn red lighten-1" />
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- 코멘트 -->
+        <div class="section" id="comment-thread"></div>
+      </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="comment-thread.js"></script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="this.onload=function(){};handleClientLoad()"
+      onreadystatechange="if (this.readyState === 'complete') this.onload()"
+    ></script>
+  </body>
+</html>
