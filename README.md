@@ -9,8 +9,8 @@ Add Your OAuth client id to main.js and open index.html
 
 ## App Info
 
-### Forked from Brad's repo then change little bit
-
+### Inspired from Brad's repo
+Repo link : [https://www.youtube.com/watch?v=r-yxNNO1EI8]
 이 프로젝트는 oauth2 테스트를 위해 깃헙페이지를 이용합니다.
 
 ## App Process
