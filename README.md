@@ -7,13 +7,13 @@
 - Or type your client id on this web-app
 
 ## App Info
-  (./img/App-Info.png)
+  ![app-info](./img/App-Info.png)
 ### Inspired from Brad's repo
 ### Repo link : [https://www.youtube.com/watch?v=r-yxNNO1EI8]
   이 프로젝트는 oauth2 테스트를 위해 깃헙페이지를 이용합니다.
 
 ## App Process
-  (./img/step.png)
+  ![step](./img/step.png)
 ## When you take Error
 - on developer tab
   * Not a valid origin for the client: http://yourAddress... this origin for your project's client ID.
