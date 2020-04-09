@@ -256,11 +256,11 @@ function showReplyList(replies) {
 function toggleReplies(id) {
   console.log(id);
   const _id = id.id;
-  const replies = document.querySelectorAll('#parent-' + _id);
+  const replies = document.querySelectorAll('#parent_' + _id);
   for (let i = 0; i < replies.length; i++) {
     replies[i].classList.toggle('invisible');
   }
-  const icon = document.querySelector('#icon-' + _id);
+  const icon = document.querySelector('#icon_' + _id);
   if (replies[0].classList.contains('invisible'))
     icon.innerText = 'expand_more';
   else icon.innerText = 'expand_less';
@@ -268,6 +268,8 @@ function toggleReplies(id) {
 
 // return comment make to card form
 function commentCard(comment) {
+  const date = getDate(comment.date);
+
   let output = `
   <div class="card blue lighten-2" id="${comment.id}">
   <div class="card-content white-text">`;
@@ -279,7 +281,7 @@ function commentCard(comment) {
         <a href=${comment.channel} target="_blank">${comment.author}</a>
         <a href="#${comment.id}" onclick="toggleReplies(${comment.id});">
           <i class="material-icons medium right" id="${
-            'icon-' + comment.id
+            'icon_' + comment.id
           }">expand_less</i>
         </a>
       </span>`;
@@ -293,11 +295,11 @@ function commentCard(comment) {
   }
 
   output += `<div class="row">
-                <div class="col s4 m4 l4">
+                <div class="col s1 m1 l1">
                   <i class="material-icons">chat</i>
                 </div>
-                <div class="col s4 m4 l4 valign-wrapper">${comment.date}</div>
-                <div class="col s2 m2 l2 valign-wrapper">
+                <div class="col s6 m6 l6 valign-wrapper">${date}</div>
+                <div class="col s3 m3 l3 valign-wrapper">
                   <i class="material-icons preifx">thumb_up</i>${comment.like}
                 </div>
               </div>
@@ -321,8 +323,9 @@ function commentCard(comment) {
 
 // return reply make card form
 function replyCard(reply) {
+  const date = getDate(reply.date);
   return `
-    <div class="row" id="${'parent-' + reply.parentId}">
+    <div class="row" id="${'parent_' + reply.parentId}">
             <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
               <div class="card teal lighten-3">
                 <div class="card-content white-text">
@@ -332,10 +335,10 @@ function replyCard(reply) {
                     </a>
                   </span>
                   <div class="row">
-                    <div class="col s3 m3 l3 valign-wrapper">
+                    <div class="col s1 m1 l1 valign-wrapper">
                       <i class="material-icons">comment</i>
                     </div>
-                    <div class="col s4 m4 l4 valign-wrapper">${reply.date}</div>
+                    <div class="col s6 m6 l6 valign-wrapper">${date}</div>
                     <div class="col s3 m3 l3 valign-wrapper">
                       <i class="material-icons preifx">thumb_up</i>${reply.like}
                     </div>
@@ -351,6 +354,30 @@ function replyCard(reply) {
               </div>
             </div>
           </div>
+  `;
+}
+
+// edit date to string
+function getDate(_date) {
+  const str = Date.parse(_date.split('.')[0] + 'Z')
+    .toString()
+    .split('GMT')[0];
+  const date = str.split(' ');
+  const time = date[4];
+  return `
+  <div class="row">
+    <div class="col s3 m3 l3">
+      <h6 class="blue-text valign-wrapper">${date[0]}</h6> 
+    </div>
+    <div class="col s9 m9 l9 light-blue-text darken-4 valign-wrapper">
+      ${date[1]} ${date[2]} ${date[3]}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m12 l12 valign-wrapper">
+      <h6 class="white-text right-align valign-wrapper">${time}</h6>
+    </div>
+  </div>
   `;
 }
 
