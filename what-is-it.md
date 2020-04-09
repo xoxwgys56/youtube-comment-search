@@ -1,5 +1,6 @@
-What is this project?
-이 프로젝트는 무슨 프로젝트인가요?
+# What is this project?
+
+# 이 프로젝트는 무슨 프로젝트인가요?
 
 유튜브 API를 이용해 데이터를 읽어들이고, 읽어들인 내용을 가공해서 사용자에게 보여준다.
 
@@ -16,3 +17,8 @@ What is this project?
 사용자는 코멘트 중 원하는 결과를 찾기 위해 검색을 할 수 있다.
 이 때 검색된 결과는 코멘트스레드 혹은 코멘트에 검색어가 포함된 경우 코멘트스레드와 속한 코멘트를 모두 검색 결과로 출력한다. 대댓글이기때문에 관련 검색결과로 판단한다.
 
+This project using Youtube Data v3.
+
+In the Youtube Data v3, this project use
+Comment Threads and Comment
+Easy to understand Comment is comment's replies
