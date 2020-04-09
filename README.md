@@ -29,6 +29,7 @@
   * VanillaJS
   * Youtube Data API v3
   * js-cookie
+  * date-js
 
 ## To-Do
 - 검색 키워드 하이라이트
