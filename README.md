@@ -24,12 +24,19 @@
     * > this case you need to add your url to your oauth2
     * > https://console.cloud.google.com/apis/credentials/
 
+## Stack
+  * HTML
+  * VanillaJS
+  * Youtube Data API v3
+  * js-cookie
+
 ## To-Do
 - 검색 키워드 하이라이트
 - 로딩 안꺼지는 경우 확인.
 - design
-- 코멘트를 클릭해서 대댓글을 접게하기
-  - 접지 못하는 코멘트에도 접기 버튼 달리는 버그 수정
+- 한글 추가
+- 대댓글 토글 시에
+  - '-' 포함된 id는 읽지 못하는 버그
 
 ## Something Learn from this
 - Can not handle function, handleClientLoad()
@@ -37,6 +44,7 @@
   - this function return nothing. so can not know user signin properly
   - also can not use promise.
 - Maybe.. I should ues React not just vanillaJS
+- If cookie is too large. can not save
 
 ### Author
 

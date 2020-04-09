@@ -36,6 +36,8 @@ searchForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const url = e.target[0].value;
+  Cookies.set('url', url);
+
   // url validation check
   if (validateVideoLink(url)) {
     const videoId = e.target[0].value.split('?v=')[1].split('&')[0];
@@ -95,7 +97,7 @@ function updateVideoInform(videoId) {
       console.log(err);
       const warningText = 'we can not find video';
       updateWarningText(warningText);
-      offCommentLoading();
+      // offCommentLoading();
     });
 }
 
@@ -249,19 +251,45 @@ function showReplyList(replies) {
   return result;
 }
 
+// id return DOM div
+// toggle shrink replies and expand
+function toggleReplies(id) {
+  console.log(id);
+  const _id = id.id;
+  const replies = document.querySelectorAll('#parent-' + _id);
+  for (let i = 0; i < replies.length; i++) {
+    replies[i].classList.toggle('invisible');
+  }
+  const icon = document.querySelector('#icon-' + _id);
+  if (replies[0].classList.contains('invisible'))
+    icon.innerText = 'expand_more';
+  else icon.innerText = 'expand_less';
+}
+
+// return comment make to card form
 function commentCard(comment) {
   let output = `
-  <div class="card blue lighten-2">
+  <div class="card blue lighten-2" id="${comment.id}">
   <div class="card-content white-text">`;
 
-  if (comment.replies) {
+  // if comment has replies
+  if (comment.replies.length > 0) {
     output += `
       <span class="card-title">
-        <a href=${comment.channel}>${comment.author}</a>
-        <i class="material-icons medium right">expand_less</i>
+        <a href=${comment.channel} target="_blank">${comment.author}</a>
+        <a href="#${comment.id}" onclick="toggleReplies(${comment.id});">
+          <i class="material-icons medium right" id="${
+            'icon-' + comment.id
+          }">expand_less</i>
+        </a>
       </span>`;
+    // comment has no replies
   } else {
-    outpue += `<span class="card-title"><a href=${comment.channel}>${comment.author}</a></span>`;
+    output += `
+    <span class="card-title">
+      <a href=${comment.channel}>${comment.author}</a>
+    </span>
+    `;
   }
 
   output += `<div class="row">
@@ -291,21 +319,18 @@ function commentCard(comment) {
   return output;
 }
 
-function getParent(id) {
-  for (let i = 0; i < comments.length; i++) {
-    //
-  }
-}
-
+// return reply make card form
 function replyCard(reply) {
   return `
-    <div class="row">
+    <div class="row" id="${'parent-' + reply.parentId}">
             <div class="col s11 m11 l11 offset-s1 offset-m1 offset-l1">
               <div class="card teal lighten-3">
                 <div class="card-content white-text">
-                  <span class="card-title"
-                    ><a href="${reply.channel}">${reply.author}</a></span
-                  >
+                  <span class="card-title">
+                    <a href="${reply.channel}" target="_blank">
+                      ${reply.author}
+                    </a>
+                  </span>
                   <div class="row">
                     <div class="col s3 m3 l3 valign-wrapper">
                       <i class="material-icons">comment</i>
@@ -348,7 +373,7 @@ function getCommentThreads(option) {
         })
         .catch((err) => {
           console.log(err);
-          offCommentLoading();
+          // offCommentLoading();
         });
     }
     // end get comment
@@ -368,7 +393,7 @@ function getCommentThreads(option) {
         })
         .catch((err) => {
           console.log(err);
-          offCommentLoading;
+          // offCommentLoading();
         });
     }
   });
@@ -376,15 +401,17 @@ function getCommentThreads(option) {
 
 // add comment
 function endGetCommentThreads(rep) {
-  console.log(rep);
+  // console.log(rep);
 
   arrangeAllComments();
   showCommentList();
 
-  console.log('end');
-  offCommentLoading();
+  // offCommentLoading();
+
+  console.log('comment get clear');
 }
 
+// arrange comment data
 let comments = [];
 function arrangeAllComments() {
   const tempThreads = [];
@@ -428,3 +455,14 @@ function arrangeAllComments() {
     comments.push(comment);
   }
 }
+
+// get cookies
+window.addEventListener('DOMContentLoaded', (e) => {
+  // console.log(Cookies.get());
+
+  const url = Cookies.get('url');
+  if (url) {
+    const urlInput = document.getElementById('url-input');
+    urlInput.value = url;
+  }
+});
