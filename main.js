@@ -3,7 +3,8 @@ const auth = {
   discoveryDocs: [
     'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest',
   ],
-  clientId: 'CLIENT-ID',
+  clientId:
+    '252897927301-1khvkbb0dq5905rpqpke6rb090c806a2.apps.googleusercontent.com',
   scope: 'https://www.googleapis.com/auth/youtube.force-ssl',
 };
 
