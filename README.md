@@ -3,8 +3,7 @@
 > App that uses Youtube API v3 to fetch and display channel data and latest videos. Uses Auth2 library to authenticate
 
 ## Quick Start
-- Add Your OAuth client id to main.js and open index.html
-- Or type your client id on this web-app
+- Type youtube video's link
 
 ## App Info
   ![app-info](https://github.com/xoxwgys56/youtube-comment-search/blob/master/img/App-Screen.png)
@@ -14,7 +13,6 @@
   - > the result include all of comment.
 ### Inspired from Brad's repo
 ### Repo link : [https://www.youtube.com/watch?v=r-yxNNO1EI8]
-  이 프로젝트는 oauth2 테스트를 위해 깃헙페이지를 이용합니다.
 
 ## App Process
   ![step](https://github.com/xoxwgys56/youtube-comment-search/blob/master/img/Step.png)
