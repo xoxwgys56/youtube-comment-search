@@ -279,7 +279,10 @@ function commentCard(comment) {
   if (comment.replies.length > 0) {
     output += `
       <span class="card-title">
-        <a href=${comment.channel} target="_blank">${comment.author}</a>
+        <a href=${comment.channel} target="_blank" class="white-text">
+        <i class="material-icons ">assignment_ind</i>
+        ${comment.author}
+        </a>
         <a href="#${comment.id}" onclick="toggleReplies(${comment.id});">
           <i class="material-icons medium right" id="${
             'icon_' + comment.id
@@ -331,8 +334,11 @@ function replyCard(reply) {
               <div class="card teal lighten-3">
                 <div class="card-content white-text">
                   <span class="card-title">
-                    <a href="${reply.channel}" target="_blank">
-                      ${reply.author}
+                    <a href="${
+                      reply.channel
+                    }" target="_blank" class="white-text">
+                    <i class="material-icons ">assignment_ind</i>
+                    ${reply.author}
                     </a>
                   </span>
                   <div class="row">
