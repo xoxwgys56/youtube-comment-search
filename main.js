@@ -293,7 +293,10 @@ function commentCard(comment) {
   } else {
     output += `
     <span class="card-title">
-      <a href=${comment.channel}>${comment.author}</a>
+      <a href=${comment.channel} target="_blank" class="white-text">
+        <i class="material-icons ">assignment_ind</i>
+        ${comment.author}
+        </a>
     </span>
     `;
   }

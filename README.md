@@ -36,6 +36,7 @@
 - 한글 추가
 - 대댓글 토글 시에
   - '-' 포함된 id는 읽지 못하는 버그
+- sort order
 
 ## Something Learn from this
 - Can not handle function, handleClientLoad()
