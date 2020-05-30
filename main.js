@@ -369,9 +369,9 @@ function replyCard(reply) {
 
 // edit date to string
 function getDate(_date) {
-  const str = Date.parse(_date.split('.')[0] + 'Z')
-    .toString()
-    .split('GMT')[0];
+  const parsedStr = Date.parse(_date.split('.')[0] + 'Z');
+  console.log(parsedStr);
+  const str = parsedStr.toString().split('GMT')[0];
   const date = str.split(' ');
   const time = date[4];
   return `
