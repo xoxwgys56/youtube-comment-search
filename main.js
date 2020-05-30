@@ -402,8 +402,13 @@ function getCommentThreads(option) {
         .list(option)
         .then((rep) => {
           commentThreads.push(rep.result.items);
-
           option.pageToken = rep.result.nextPageToken;
+          // alert current working
+          const alert = {
+            msg: rep.result.items.length + ' comments added.',
+            pageToken: option.pageToken,
+          };
+          console.log(alert);
           getCommentThreads(option).then((rep) => {
             endGetCommentThreads(rep);
           });
