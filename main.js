@@ -68,11 +68,11 @@ searchForm.addEventListener('submit', (e) => {
 // comment loading
 function onCommentLoading() {
   const commentLoading = document.getElementById('comment-loading');
-  commentLoading.style.display = 'block';
+  if (commentLoading) commentLoading.style.display = 'block';
 }
 function offCommentLoading() {
   const commentLoading = document.getElementById('comment-loading');
-  commentLoading.style.display = 'none';
+  if (commentLoading) commentLoading.style.display = 'none';
 }
 
 // update video inform
@@ -369,8 +369,10 @@ function replyCard(reply) {
 
 // edit date to string
 function getDate(_date) {
-  const parsedStr = Date.parse(_date.split('.')[0] + 'Z');
-  console.log(parsedStr);
+  let zDate = _date;
+  if (!_date.includes('Z')) zDate + 'Z';
+  const parsedStr = Date.parse(_date.split('.')[0]);
+  // console.log(_date, parsedStr);
   const str = parsedStr.toString().split('GMT')[0];
   const date = str.split(' ');
   const time = date[4];
@@ -407,6 +409,7 @@ function getCommentThreads(option) {
           const alert = {
             msg: rep.result.items.length + ' comments added.',
             pageToken: option.pageToken,
+            totalLength: commentThreads.length,
           };
           console.log(alert);
           getCommentThreads(option).then((rep) => {
@@ -427,8 +430,14 @@ function getCommentThreads(option) {
         .then((rep) => {
           // add to array
           commentThreads.push(rep.result.items);
-
           option.pageToken = rep.result.nextPageToken;
+          // alert current working
+          const alert = {
+            msg: rep.result.items.length + ' comments added.',
+            pageToken: option.pageToken,
+            totalLength: commentThreads.length,
+          };
+          console.log(alert);
           getCommentThreads(option).then((rep) => {
             endGetCommentThreads(rep);
           });
